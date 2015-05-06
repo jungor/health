@@ -7,8 +7,8 @@
 			<div class="row">
 			  <div class="col-md-4 col-xs-3"></div>
 			  <div class="col-md-4 col-xs-6 img-center">
-			  	<img src="../public/image/logo.png" alt="社区小康" class="change-img">
-				<img src="../public/image/word.png" alt="社区小康" class="change-word">
+			  	<img src="{{ static_url('image/logo.png') }}" alt="社区小康" class="change-img">
+				<img src="{{ static_url('image/word.png') }}" alt="社区小康" class="change-word">
 			  </div>
 			  <div class="col-md-4 col-xs-3"></div>
 			</div>
@@ -16,13 +16,13 @@
 	</div>
 
 	<div class="search-bar">
-		<form>
+		<form action="/result" method="post">
 			<div class="container-fluid">
 				<div class="row">
 				  <div class="col-md-4 col-xs-1"></div>
 				  <div class="col-md-4 col-xs-10">
-				  	<input type="text" class="form-control fix-width-for-input" placeholder="请输入你要查找的药品">
-				  	<a class="btn btn-default btn-search-index" href="#" role="button">搜索</a>
+				  	<input type="text" class="form-control fix-width-for-input" placeholder="请输入你要查找的药品" name="query" required>
+				  	<input class="btn btn-default btn-search-index" type="submit" value="搜索" />
 				  </div>
 				  <div class="col-md-4 col-xs-1"></div>
 				</div>

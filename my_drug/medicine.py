@@ -16,18 +16,18 @@ define("port", default=8000, help="run on the given port", type=int)
 class Application(tornado.web.Application):
     def __init__(self):
         settings = dict (
-            handlers=[(r'/', SearchHandler), (r'/search_result', ResultHandler), (r'/search_detail', DetailHandler)],
+            handlers=[(r'/', SearchHandler), (r'/result', ResultHandler), (r'/detail', DetailHandler)],
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             debug=True
         )
-        conn = MongoClient("localhost", 27017)
+        conn = MongoClient("mongodb://120.25.234.58/")
         self.db = conn["mydrug"]
         tornado.web.Application.__init__(self, **settings)
 
 class SearchHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('index.html')
+        self.render('index.html', is_index=True)
 
 class ResultHandler(tornado.web.RequestHandler):
     '''A RequestHandler
@@ -37,6 +37,7 @@ class ResultHandler(tornado.web.RequestHandler):
         result = []
         flag = True
         coll = self.application.db.medicine
+        count = 0
         for doc in coll.find().sort("DrugName"):
             if query in doc["DrugName"]:
                 name =doc["DrugName"]
@@ -45,7 +46,7 @@ class ResultHandler(tornado.web.RequestHandler):
                 # 如果result为空或者当前结果不等于前一个结果，则添加
                 if ((not result) or result[-1]!=temp):
                     result.append(temp)
-        self.render("search_result.html", query=query, result=result)
+        self.render("search_result.html", query=query, result=result, count=count, is_index=False)
 
 class DetailHandler(tornado.web.RequestHandler):
     """docstring for DetailHandler"""
@@ -53,7 +54,7 @@ class DetailHandler(tornado.web.RequestHandler):
         coll = self.application.db.medicine
         name = self.get_argument('name', None)
         detail = coll.find({"DrugName":name})
-        self.render("search_detail.html", detail=detail)
+        self.render("search_detail.html", detail=detail, is_index=False)
         
 
 if __name__ == '__main__':
