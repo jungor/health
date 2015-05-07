@@ -136,9 +136,14 @@ html, body {
 	min-height: 30px;
 }
 
+.content .detail-rows span {
+	font-size: 12pt;
+}
+
 .content .detail-rows .label {
 	color: #383e49;
 	vertical-align: -2px;
+	padding-top: .4em;
 }
 
 .content .detail-rows .value {
@@ -147,6 +152,7 @@ html, body {
 	box-sizing: border-box;
 	border-left: 1px dashed #ddd;
 	padding-left: 10px;
+	padding-top: .2em;
 }
 
 .content .result-detail .detail-shop th {
